@@ -2,7 +2,12 @@ version: "3.9"
 
 services:
   minio:
-    image: minio/minio:RELEASE.2024-02-17T01-15-57Z
+    # No Support GUI Replication
+    #image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    #image: minio/minio:RELEASE.2024-12-18T13-15-44Z-cpuv1
+    # Support GUI replication
+    #image: minio/minio:RELEASE.2024-02-17T01-15-57Z
+    image: minio/minio:RELEASE.2024-02-24T17-11-14Z
     container_name: minio
     # Host network: container shares the host's network namespace
     network_mode: host
