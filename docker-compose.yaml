@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  minio:
+    image: minio/minio:RELEASE.2024-02-17T01-15-57Z
+    container_name: minio
+    # Host network: container shares the host's network namespace
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      # Set your own strong creds (or use an .env file)
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123!}
+      # Optional: tune memory if needed
+      # MINIO_CACHE: "on"
+    # Bind mount your host data directory to /data in the container
+    volumes:
+      - ./minio-data:/data
+    command: >
+      server /data
+      --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
